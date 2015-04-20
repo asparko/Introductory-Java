@@ -1,0 +1,313 @@
+bplist00—_WebMainResource’	
+^WebResourceURL_WebResourceData_WebResourceMIMEType_WebResourceTextEncodingName_WebResourceFrameName_:http://www.cs.unc.edu/~kmp/comp401sp14/assignments/a6.htmlO0s<!DOCTYPE html PUBLIC "-//IETF//DTD HTML//EN"><html><head>
+<title>COMP 401, Spring 2014, Assignment 6</title>
+</head>
+
+<body>
+
+<h1>Assignment 6</h1>
+<h3>Due: Midnight, Sunday, March 30</h3>
+
+<h2>Novice</h2>
+
+<p>
+Start with your a5adept or a5jedi solution.
+</p>
+
+<p>
+Copy and rename as a6novice.
+</p>
+
+<p>
+Define a class called FrameArea. This will be a simple class that represents a rectangle region of coordinates within a Frame. It should encapsulate 4 integer values that represent the left, top, right, and bottom coordinates of the rectangular region. FrameArea instances should be immutable. FrameArea should have the following public constructor:
+</p>
+
+<pre>public FrameArea(int min_x, int min_y, int max_x, int max_y);
+</pre>
+
+<p>
+An instance of this class should have the following public methods:
+</p>
+
+<dl>
+<dt><pre>public int getMinX();
+public int getMaxX();
+public int getMinY();
+public int getMaxY();
+</pre></dt>
+<dd>
+These are simply getters for the encapsulated FrameArea coordinates.
+</dd>
+
+<dt><pre>public FrameArea intersect(FrameArea other) throws NoIntersectionException;
+</pre></dt>
+
+<dd>
+Calculates the intersection of the area with the FrameArea object passed in as other and returns a FrameArea object that represents the intersection. If the intersection is empty (i.e., the value of other is null or the intersection with other is empty), then a NoIntersectionException should be thrown. This should be a checked exception that you define (i.e., it is not a built-in exception type already provided by Java). 
+</dd>
+
+<dt><pre>public FrameArea union(FrameArea other);
+</pre></dt>
+
+<dd>
+  Calculates the intersection of the area with the FrameArea object passed in as other and returns a FrameArea object that represents the smallest rectangular area that includes both. If other is null, then the FrameArea object can simply return itself.
+</dd>
+
+<dt><pre>public FrameArea translate(int dx, int dy);
+</pre></dt>
+
+<dd>
+  Returns a new FrameArea object that represents the rectangle translated by dx and dy.
+</dd>
+
+<p>
+Your FrameArea object should also override the toString() method inherited from Object to produce a String with the following form:
+</p>
+
+<pre>(minX, minY)::(maxX, maxY)
+</pre>
+
+<p>
+where minX, minY, maxX, maxY above are placeholders for the actual values encapsulated.
+</p>
+
+<p>
+Turn this in as a6novice.jar
+</p>
+
+<h2>Adept</h2>
+
+<p>
+Make a copy of your a6novice package and rename it as a6adept
+</p>
+
+<p>
+Follow the observer/observable design pattern to allow an object to register itself as an observer of a Frame object. Whenever any of the frame's pixels are changed, the Frame object should notify all of its observers the the change has occured. Implement the observer/observable design pattern from scratch (i.e., don't use the Java library Observable class or Observer interface). 
+</p>
+
+<p>
+First define the observer interface as follows:
+</p>
+
+<pre>public interface FrameObserver {
+       void update(Frame frame, FrameArea area);
+}
+</pre>
+
+<p>
+Now add the following methods to the definition of the Frame interface:
+</p>
+
+<pre>void registerFrameObserver(FrameObserver observer);
+void unregisterFrameObserver(FrameObserver observer);
+</pre>
+
+<p>
+These are the methods that will be used to register and unregister obeservers with a Frame object. A Frame object should maintain a list of registered observers and then whenever any of its pixels changes, the update method of all registered observers should be called, providing both a reference to the Frame object that changed as well as a FrameArea object that indicates the area within the frame that changed. 
+</p>
+
+<p>
+Think carefully about how to best implement this behavior and where to put the code (HINT: if you completed A5 Jedi, you have a common parent class which all of your Frame implementing classes inherit from).
+</p>
+
+<p>
+Also think carefully about how to handle IndirectFrame objects. An indirect frame should be able to have its own set of observers independent of the underlying source frame object. At the same time, though, a change to the source frame pixels should result in notifications to both the observers directly registered with the source frame as well as the observers registered with the indirect frame. The FrameArea objects sent to the update methods of these observers, however, should be relative to the appropriate coordinate system. Another thing to keep in mind is that the change could be triggered either because we called setPixel directly on the source frame or because we called setPixel on the indirect frame. (HINT: make your IndirectFrame objects an observer of the underlying source frame and then translate any updates received into updates for the observers of the indirect frame).
+</p>
+
+<p>
+For example, suppose we have the following code that defines a FrameObserver class called SimpleFrameObserver:
+</p>
+
+<pre>public class SimpleFrameObserver implements FrameObserver {
+       public void update(Frame frame, FrameArea frame_area) {
+       	      System.out.println(frame.toString() + " changed in area " + frame_area.toString());
+      }
+}
+</pre>
+
+<p>
+Now suppose we execute the following code:
+</p>
+
+<pre>SimpleFrameObserver o1 = new SimpleFrameObserver();
+SimpleFrameObserver o2 = new SimpleFrameObserver();
+
+ColorFrame c_f = new ColorFrame(100, 100);
+IndirectFrame i_f = new IndirectFrame(c_f, 50, 50, 10, 10);
+
+c_f.registerFrameObserver(o1);
+i_f.registerFrameObserver(o2);
+</pre>
+
+<p>
+At this point, we've created a ColorFrame that is 100 x 100 and an IndirectFrame that is 10x10 that uses this ColorFrame as its source and is offset at the coordinates (50,50). We've also created two SimpleFrameObserver objects and registered one with the ColorFrame object and one with the IndirectFrame object as observers.
+</p>
+
+<p>
+Now if the following line of code executes:
+</p>
+
+<pre>c_f.setPixel(50,50, new ColorPixel(1,1,1));
+</pre>
+
+<p>
+We should expect the following output (not necessarily in this order):
+</p>
+
+<pre>Frame: untitled (100 x 100) changed in area (50, 50)::(50, 50)
+Indirect Frame: untitled (10 x 10) at (50, 50) changed in area (0,0)::(0,0)
+</pre>
+
+<p>
+Notice that the update method of the observer registered with the ColorFrame object directly was provided a reference to the ColorFrame object (explaining the "Frame: untitled (100 x 100)" portion of the output) and a FrameArea object that represented the single pixel that was changed (explaining the "(50, 50)::(50, 50)" portion of the output).
+</p>
+
+<p>
+Because the change in the ColorFrame object was within the area used to define the IndirectFrame, the update() method of the observer registered with the IndirectFrame was also invoked, but the Frame object provided to this observer was the IndirectFrame (explaining the "Indirect Frame: untitled (10 x 10) at (50, 50)" portion of the output) and a FrameArea object representing the area changed in the coordinate system of the indirect frame (explaining the "(0, 0)::(0, 0)" portion of the output). 
+</p>
+
+<p>
+We would have expected the exact same output if we had done this instead:
+</p>
+
+<pre>i_f.setPixel(0, 0, new ColorPixel(1,1,1));
+</pre>
+
+<p>
+If the change made to the underlying ColorFrame object was outside of the area covered by the IndirectFrame, we would only expect the observer directly registered with the ColorFrame object to be notified. For example, this line of code:
+</p>
+
+<pre>c_f.setPixel(49,50, new ColorPixel(1,1,1));
+</pre>
+
+<p>
+Should result in this output:
+</p>
+
+<pre>Frame: untitled (100 x 100) changed in area (49, 50)::(49, 50)
+</pre>
+
+<p>
+Turn this in as a6adept.jar.
+</p>
+
+<h2>Jedi</h2>
+
+<p>
+Copy your a6adept package as a6jedi. 
+</p>
+
+<p>
+In our Jedi version, we will add the following features:
+</p>
+
+<ul>
+  <li>An observer should be able to indicate an area of interest when it is registered.</li>
+  <li>We should be able to "turn off" notifications to observers, make a number of changes to a frame (e.g., calling setPixel several times), and then later "turn on" notifications to observers resulting in one call to each observer's update() method with a FrameArea object that encompasses all of the coordinates of any changed pixels.</li>
+</ul>
+
+<p>
+To do this, add the following methods to the definition of the Frame interface:
+</p>
+
+<pre>void registerFrameObserver(FrameObserver observer, FrameArea area_of_interest);
+void suspendNotifications();
+void resumeNotifications();
+</pre>
+
+<p>
+Notice that we now have two versions of registerFrameObserver(). You can think of the original version that does not provide an area_of_interest as being the same as the new version where the area of interest is simply the whole frame. So you should be able to rewrite the original version thusly to use this new version:
+</p>
+
+<pre>public void registerFrameObserver(FrameObserver observer) {
+    registerFrameObserver(observer, new FrameArea(0, 0, getWidth()-1, getHeight()-1));
+}
+</pre>
+
+<p>
+Now each frame observer is associated with an area of interest. For maximum credit, you should employ the Decorator design pattern here to achieve this. Reviewing the example code from Lecture 15 may be helpful.
+</p>
+
+<p>
+As for the suspending and resuming of notifications, the following examples may help. 
+</p>
+
+<p>
+Like the example above, suppose we have two SimpleFrameObserver objects o1 and o2 registered with a ColorFrame that is 100x100 and an IndirectFrame that is 10x10 at offset (50,50) respectively.
+</p>
+
+<p>
+Now suppose we do the following:
+</p>
+
+<pre>c_f.suspendNotifications();
+c_f.setPixel(40,40, new ColorPixel(1,1,1));
+c_f.setPixel(55,58, new ColorPixel(1,1,1));
+c_f.setPixel(57,52, new ColorPixel(1,1,1));
+c_f.setPixel(62,52, new ColorPixel(1,1,1));
+c_f.resumeNotifications();
+</pre>
+
+<p>
+We should expect the following output:
+</p>
+
+<pre>Frame: untitled (100 x 100) changed in area (40, 40)::(62, 58)
+Indirect Frame: untitled (10 x 10) at (50, 50) changed in area (0,0)::(9,8)
+</pre>
+
+<p>
+Notice that suspending notifications of the underlying source frame also prevented those changes from being observed by the indirect frame and that resuming them results in a single update with an area that encompasses all of the changed coordinates. Also notice that the changed area reported to the observer of the IndirectFrame is limited (i.e., intersected) with the area that the IndirectFrame covers and is in the appropriate coordinate system.
+</p>
+
+<p>
+The suspension/resumption of notifications for an IndirectFrame can occur independently of the underlying source frame. So the following code (same as above except the suspend/resume occurs on the indirect frame):
+</p>
+
+<pre>i_f.suspendNotifications();
+c_f.setPixel(40,40, new ColorPixel(1,1,1));
+c_f.setPixel(55,58, new ColorPixel(1,1,1));
+c_f.setPixel(57,52, new ColorPixel(1,1,1));
+c_f.setPixel(62,52, new ColorPixel(1,1,1));
+i_f.resumeNotifications();
+</pre>
+
+<p>
+Will result in this output:
+</p>
+
+<pre>Frame: untitled (100 x 100) changed in area (40, 40)::(40, 40)
+Frame: untitled (100 x 100) changed in area (55, 58)::(55, 58)
+Frame: untitled (100 x 100) changed in area (57, 52)::(57, 52)
+Frame: untitled (100 x 100) changed in area (62, 52)::(62, 52)
+Indirect Frame: untitled (10 x 10) at (50, 50) changed in area (5,2)::(7,8)
+</pre>
+
+<p>
+Notice here that the observer of the ColorFrame saw each update as it occured since the ColorFrame had not suspended notifications. Also notice that when the IndirectFrame resumed notifications, the update that it issued only covered the area for the two changes that were valid for the indirect frame. This is because the indirect frame ignored the two updates reported to it by the direct frame that were outside of the indirect frame.
+</p>
+
+<p>
+Finally, note that an observer that is registered with an area of interest should only receive updates if the updated area intersects with its area of interest. The area reported to this observer (i.e., the FrameArea object passed to the update method), however, should encompass the entire area that changed. 
+</p>
+
+<p>
+Turn this in as a6jedi.jar.
+</p>
+
+<h2>Grading</h2>
+
+<p>
+This is a substantially more sophisticated assignment than previous assignments, so this will be worth 20 points total.
+</p>
+
+<ul>
+<li>3 for novice functionality</li>
+<li>6 for adept functionality</li>
+<li>6 for jedi functionality</li>
+<li>2 for using decorator to implement jedi functionality
+</li><li>3 for style</li>
+</ul>
+
+
+</dl></body></html>Ytext/htmlUUTF-8P    ( 7 I _ } î —1H1R1X                           1Y

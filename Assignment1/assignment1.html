@@ -1,0 +1,121 @@
+<<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment 1, COMP 401 UNC Spring 2014</title>
+</head>
+<body>
+<div class="post_region_content note" id="view_quesiton_note">
+        
+<h1 class="post_region_title">Assignment 1</h1>
+
+<div class="post_region_text" id="questionText"><p><strong>Due: Midnight, Wednesday, January 22, 2014</strong></p>
+<p><br><span style="text-decoration:underline"><em>A Java Programming Warm-up</em></span></p>
+<p><br>This assignment is intended to warm up your Java programming skills. It does not exercise any object-oriented programming concepts. You can (and should) simply use static public class functions. It will, however, exercise basic programming constructs such as loops and conditional execution and require you to use strings and arrays.</p>
+<p><br>The assignment is in three parts that are in increasing level of difficulty called A1Novice, A1Adept, and A1Jedi. The basic idea for all of the parts is to write a program that processes a set of "DNA strands" represented as strings of the capital letters 'A', 'C', 'G', and 'T'. In all three parts, I will provide a class with a main method that creates an input Scanner object and then calls the method <em>process()</em>, providing the Scanner object as a parameter.</p>
+<p><br>You are responsible, in each case, for implementing the <em>process</em> method as described below and produce output using System.out.println(). Please match the format of the example output provided below and do not produce any additional output. You are free to (and in fact encouraged to) create additional class methods to use as helper functions as you see fit.</p>
+<p><br>The set up directions below assume you are using Eclipse. You are not required to but you do need to use the same package and class names. Remember, capitalization counts.</p>
+<p><br><span style="text-decoration:underline"><em>Scanner</em></span></p>
+<p><br>This assignment requires you to make use of a Scanner object. You can read the documentation for the Scanner object <a target="_blank" rel="noreferrer" href="http://docs.oracle.com/javase/7/docs/api/java/util/Scanner.html">here</a>. All you should really need is to use the method <em>next()</em> to read the next word from the input. You may also find the method <em>nextInt()</em> to read the next word as an integer useful for the A1Jedi part.</p>
+<p><br><span style="text-decoration:underline"><em>Set Up</em></span></p>
+<p><br>To set up the assignment, create a new project in Eclipse called "Assignment1".</p>
+<p><br>In the project, create a package called "a1".</p>
+<p><br>In the package, create three classes called, A1Novice, A1Adept, and A1Jedi.</p>
+<p><br>Add the following line to the top of each class file after the package declaration:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">import</span><span class="pln"> java</span><span class="pun">.</span><span class="pln">util</span><span class="pun">.</span><span class="typ">Scanner</span></pre>
+<p><br>Edit the contents of each class to look like this:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="pln">&nbsp;&nbsp; &nbsp;</span><span class="kwd">public</span><span class="pln"> </span><span class="kwd">static</span><span class="pln"> </span><span class="kwd">void</span><span class="pln"> main</span><span class="pun">(</span><span class="typ">String</span><span class="pun">[]</span><span class="pln"> args</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;</span><span class="typ">Scanner</span><span class="pln"> s </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Scanner</span><span class="pun">(</span><span class="typ">System</span><span class="pun">.</span><span class="kwd">in</span><span class="pun">);</span><span class="pln">
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;process</span><span class="pun">(</span><span class="pln">s</span><span class="pun">);</span><span class="pln">
+&nbsp;&nbsp; &nbsp;</span><span class="pun">}</span><span class="pln">
+&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;</span><span class="kwd">public</span><span class="pln"> </span><span class="kwd">static</span><span class="pln"> </span><span class="kwd">void</span><span class="pln"> process</span><span class="pun">(</span><span class="typ">Scanner</span><span class="pln"> s</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+&nbsp;&nbsp; &nbsp;</span><span class="pun">}</span><span class="pln">
+</span></pre>
+<p><span style="text-decoration:underline"><em>A1Novice</em></span></p>
+<p><br>This program should process the input as a sequence of white space separated words. Each word (except the last one) represents a strand of DNA and will be comprised entirely of the characters 'A', 'C', 'G', and 'T' representing the four possible nucleobases. The end of the input is signaled by the word "end".</p>
+<p>&nbsp;</p>
+<p><br>The program should count the total number of each nucleobase in all of the strands and then print the results to the output. For example, if the input to the program was:</p>
+<p>&nbsp;</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="pln">A 
+CC 
+AATA 
+GGG
+TTT
+</span><span class="kwd">end</span></pre>
+<p><br>The program should produce the following output:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="pln">A count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pln">
+C count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pln">
+G count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">3</span><span class="pln">
+T count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span></pre>
+<p><br>In producing the output, please be sure to match the above, including the order of the count report (i.e., first A, then C, etc.).</p>
+<p><br><span style="text-decoration:underline"><em>A1Adept</em></span></p>
+<p><br>This program should process the input as A1Novice does, but in addition to producing the counts, it should also keep track of the DNA strand with the smallest and largest number of each of the nucleobases and print those strands to the output. So, given the following input:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="pln">A 
+CC 
+AATA 
+GGG
+TTT
+</span><span class="kwd">end</span></pre>
+<p><br>The program might produce the following valid output (there are other outputs that are equally valid because of ties in the counts between different strings):</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="pln">A count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pln">
+C count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pln">
+G count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">3</span><span class="pln">
+T count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pln">
+</span><span class="typ">Low</span><span class="pln"> A count</span><span class="pun">:</span><span class="pln"> CC
+</span><span class="typ">High</span><span class="pln"> A count</span><span class="pun">:</span><span class="pln"> AATA
+</span><span class="typ">Low</span><span class="pln"> C count</span><span class="pun">:</span><span class="pln"> A
+</span><span class="typ">High</span><span class="pln"> C count</span><span class="pun">:</span><span class="pln"> CC
+</span><span class="typ">Low</span><span class="pln"> G count</span><span class="pun">:</span><span class="pln"> A
+</span><span class="typ">High</span><span class="pln"> G count</span><span class="pun">:</span><span class="pln"> GGG
+</span><span class="typ">Low</span><span class="pln"> T count</span><span class="pun">:</span><span class="pln"> A
+</span><span class="typ">High</span><span class="pln"> T count</span><span class="pun">:</span><span class="pln"> TTT</span></pre>
+<p><br>You can assume that when we test your program, all of the nucleobases will show up at least once.</p>
+<p><br><span style="text-decoration:underline"><em>A1Jedi</em></span></p>
+<p><br>This program counts the occurrence of specified patterns in the input strands and produces a report for each pattern. The first input to this program will be an integer indicating how many patterns will be provided (call this N). The next N words to this program will be patterns of nucleobases to search for. Following the patterns will be a sequence of strands terminated by the word "end" as before. For example, given the following input:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="lit">4</span><span class="pln">
+A
+AC
+GTA
+TA
+AABCGTA
+ATAGTAC
+CCCGGTA
+</span><span class="kwd">end</span></pre>
+<p><br>The output should be:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="typ">Pattern</span><span class="pun">:</span><span class="pln"> A </span><span class="typ">Count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">7</span><span class="pln">
+</span><span class="typ">Pattern</span><span class="pun">:</span><span class="pln"> AC </span><span class="typ">Count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+</span><span class="typ">Pattern</span><span class="pun">:</span><span class="pln"> GTA </span><span class="typ">Count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">3</span><span class="pln">
+</span><span class="typ">Pattern</span><span class="pun">:</span><span class="pln"> TA </span><span class="typ">Count</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span></pre>
+<p><br>The output report should list the patterns in the same order as they were input.</p>
+<p><br><span style="text-decoration:underline"><em>Turning The Assignment In</em></span></p>
+<p><br>Turn in the assignment via Sakai. Submit three separate files for each of the classes. Be sure to submit the source code .java files and not the compiled .class files. Do not put the files into an archive such as a .zip or .tar file. <br><br></p>
+<p><em><span style="text-decoration:underline">Grading</span></em></p>
+<p>&nbsp;</p>
+<p>A1Novice is worth 3 points</p>
+<p>A1Adept is worth 4 points</p>
+<p>A1Jedi is worth 3 points</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p><br></div>
+<div class="post_region_folders">
+  <span>
+    
+  </span>
+</div>
+<div class="attachments" style="display:none;">
+  <div class="attachments_divider"></div>
+  <div class="attachments_count">Attachments:</div>
+  <table class="attachments_list">
+    
+  </table>
+</div>
+<div class="post_region_message_wrapper">
+  <div id="endorse_text"></div>
+  
+  
+  
+
+      </div>
+    </div>
+</body>
+</html>

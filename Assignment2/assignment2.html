@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment 2, COMP 401 UNC Spring 2014</title>
+</head>
+<body>
+
+<div class="post_region_content note" id="view_quesiton_note">
+        
+<h1 class="post_region_title">Assignment 2</h1>
+
+<div class="post_region_text" id="questionText"><p>Due date: Midnight, Friday, January 31st</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>This assignment has three parts of increasing difficulty. You should attempt them in order as they build on top of each other.</p>
+<p><br><span style="text-decoration:underline"><strong>Setup</strong></span></p>
+<p><br>In Eclipse create a new project and then in that project create a<br>package called "a2". Develop all of your code in this package.</p>
+<p><br><span style="text-decoration:underline"><strong>Novice</strong></span></p>
+<p><br>In this part of the assignment, you will write code to implement a<br>single class called DNAStrandNovice according to the specification<br>below. &nbsp;</p>
+<p><br>The name of the class should be DNAStrandNovice.</p>
+<p><br>You should have a single constructor with the following method signature:</p>
+<p>&nbsp;</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">public</span><span class="pln"> </span><span class="typ">DNAStrandNovice</span><span class="pun">(</span><span class="typ">String</span><span class="pln"> strand</span><span class="pun">)</span></pre>
+<p><br>The string passed to the constructor should be composed entirely of<br>'A', 'C', 'G', or 'T' characters. The constructor should check to make<br>sure that the strand only contains these characters. If any other<br>characters are included (including lower case a, c, t, or g), the<br>constructor should terminate with a <br>runtime exception. The following line of code is the appropriate way to do this:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">throw</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">RuntimeException</span><span class="pun">(</span><span class="str">"Illegal DNA strand"</span><span class="pun">);</span></pre>
+<p><br>The DNAStrandNovice object that is initialized by your constructor<br>should encapsulate the strand string. DNAStrandNovice <br>should implement the following instance methods:</p>
+<p>&nbsp;</p>
+<ul><li>public int getACount()</li><li>public int getCCount()</li><li>public int getGCount()</li><li>public int getTCount()</li><li>public String getStrandString()</li><li>public int getLength()</li></ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br>The first four methods return the number of 'A's, 'C's, 'G's, and 'T's<br>in the strand respectively. The method getStrandString() should return<br>the string that was used to create the object (i.e., the string that<br>was originally passed to the constructor). The method getLength()<br>should return the length of the strand.</p>
+<p><br><span style="text-decoration:underline"><strong>Adept</strong></span></p>
+<p>&nbsp;</p>
+<p><br>Create a copy of your DNAStrandNovice class, renaming it DNAStrandAdept.</p>
+<p>&nbsp;</p>
+<p><br>Modify your DNAStrandAdept class to include the following methods:</p>
+<p>&nbsp;</p>
+<ul><li>public int getCount(String pattern)</li></ul>
+<p><br>This method should return the number of times that the pattern appears<br>in the strand.</p>
+<p>&nbsp;</p>
+<ul><li>public int findPattern(String pattern, int startIndex)</li></ul>
+<p><br>This method returns the position of the first occurence of pattern<br>in the strand starting at position startIndex. In other words,<br>findPattern should start looking for the pattern at the position<br>startIndex where 0 is the index of the first nucleobase in the strand<br>and getLength()-1 is the index of the last nucleobase in the<br>strand. If the pattern is not found, then this method should return<br>-1. If startIndex is less than 0, start looking at position 0. If<br>startIndex is equal to or greater than the length of the strand, this<br>method should return -1.</p>
+<p>&nbsp;</p>
+<p><br><span style="text-decoration:underline"><strong>Jedi</strong></span></p>
+<p>&nbsp;</p>
+<p><br>Create a copy of your DNAStrandAdept class, renaming it DNAStrandJedi</p>
+<p>&nbsp;</p>
+<p><br>Modify your DNAStrandJedi class to include the following methods.</p>
+<p>&nbsp;</p>
+<ul><li>public DNAStrandJedi snip(String startPattern, String endPattern)</li></ul>
+<p><br>This method should first attempt to find the first occurence of startPattern<br>in the strand. If found, then it should try to find the first occurence of<br>endPattern that occurs after the match with startPattern. If found, it<br>should return a new DNAStrandJedi object that represents the substrand<br>of nucleobases that occurs between the two matches. In other words if<br>the strand is:</p>
+<p><br>AACATGTACTACTGGTG</p>
+<p><br>and the snip method is called like this:</p>
+<p><br>snip("CA", "A")</p>
+<p><br>then the resulting new DNAStrandJedi object should represent the<br>strand "TGT" which is found after the first match of "CA" at index 2<br>and before the subsequent match of "A" at index 7.</p>
+<p>&nbsp;</p>
+<p>If the start pattern or end pattern is not found, or if the end pattern occurs immediately after the start pattern so that there is no substrand between them, snip should return null.</p>
+<p>&nbsp;</p>
+<p>If startPattern is the empty string (i.e., "") or null, then this matches the beginning of the strand. Similarly, if endPattern is the empty string or null, then this matches the end of the strand.</p>
+<p>&nbsp;</p>
+<p><br>Finally, modify the findPattern method to allow the pattern to include the<br>following wildcard characters:</p>
+<p>&nbsp;</p>
+<p><br>* : matches any of the nucleobases<br>a : matches any base *but* A (i.e., C, G, or T)<br>c : matches any base but C<br>t : matches any base but T<br>g : matches any base but G</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br><span style="text-decoration:underline"><strong>Turning in the assignment</strong></span></p>
+<p><br>Turn in just the three .java files for the three classes. Please do<br>not put them in any sort of archive format (.tar, .zip, .jar, etc.).</p>
+<p>&nbsp;</p>
+<p><br>We will be releasing tester classes early next week, but in the<br>meantime, you should be able to test DNAStrandNovice by reimplementing<br>your A1Adept program to use this class, and you should be able to test<br>DNAStrandAdept by reimplementing A1Jedi to use this class.</p>
+<p>&nbsp;</p>
+<p>Grading</p>
+<p>&nbsp;</p>
+<p>Novice is worth 3</p>
+<p>Adept is worth 4</p>
+<p>Jedi is worth 3</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br>&nbsp;<br><br><br><br><br><br><br><br></p><br></div>
+<div class="post_region_folders">
+  <span>
+    
+  </span>
+</div>
+<div class="attachments" style="display:none;">
+  <div class="attachments_divider"></div>
+  <div class="attachments_count">Attachments:</div>
+  <table class="attachments_list">
+    
+  </table>
+</div>
+<div class="post_region_message_wrapper">
+  <div id="endorse_text"></div>
+  
+  
+  
+
+      </div>
+    </div>
+
+    
+
+
+
+</body>
+</html>

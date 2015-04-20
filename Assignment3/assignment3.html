@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<div class="post_region_content note" id="view_quesiton_note">
+        
+<h1 class="post_region_title">Assignment 3</h1>
+
+<div class="post_region_text" id="questionText">
+<p>Due, midnight Friday, February 14th.</p>
+<p>&nbsp;</p>
+<p>The computer science goal of this assignment is to:</p>
+<p>&nbsp;</p>
+<ul><li>Define an interface</li><li>Define a specific class that implements that interface</li><li>Implement an immutable object</li><li>Implement an object that represents a mutable collection</li><li>Define an iterator over the collection that implements the Java Iterator&lt;E&gt; interface</li><li>Make the collection object an implementation of the Java Iterable&lt;E&gt; interface.</li></ul>
+<p>&nbsp;</p>
+<p>The context for the assignment will be classes that represent pixels and frames (i.e., pictures). <br><br>A pixel is a single point of a picture and represents a specific color at that point. A color (to a computer) is a specific formula of three components: red, green, and blue. We will be using values in the range of 0.0 to 1.0 for each of these components. A 0.0 value represents no amount of that component and 1.0 is the maximum amount of that component. When the red, green, and blue components all equal each other, you get a color on the grayscale spectrum from black (all 0.0's) to white (all 1.0's). The chromatic colors are formed when the values for red, green, and blue differ from each other. You can read more about the RGB color model here if you want to learn more:</p>
+<p>&nbsp;</p>
+<p>http://en.wikipedia.org/wiki/Red_green_blue <br><br></p>
+<p>In this assignment, we'll develop classes for both color pixels and grayscale pixels (i.e., pixels where the red, green, and blue components are aways equal to each other). The classes will be immutable, so they won't change once created.</p>
+<p>&nbsp;</p>
+<p>A frame (i.e., a picture) is a rectangular two-dimensional array of pixels of a given width and height. The pixels of a frame are addressable by their position (i.e., x and y coordinates) within the frame. The x-coordinate represents the column of the pixel and the y-coordinate represents the row of the pixel. In our version of frames, the top of the picture is the first (i.e., 0th row) and the bottom is the last row. This means the upper left corner of the picture has the (x,y) coordinates (0,0) and the lower right picture has the coordinates (w-1, h-1) where w and h are the width and height of the frame.</p>
+<p>&nbsp;</p>
+<p>We'll develop classes for color pictures (i.e., containing color pixels) and grayscale pictures (i.e., containing grayscale pixels). These classes will be mutable and will be able to set a particular pixel to a new value. These classes will also be iterable, meaning that they will have a method that produces an iterator to traverse all of the pixels in the picture in turn. The iterator object will traverse the picture in "raster scan" order which means row-by-row, from left-to-right. So, the first pixel produced by the iterator will be at the coordinates (0,0) and then the next pixel will at the coordinates (1,0), and so on until the end of the 0th row (w-1, 0). The next pixel after that will be at the coordiantes (0,1), and so on and so forth.</p>
+<p>&nbsp;</p>
+<p>This assignment will ask that you develop these interfaces and classes with increasing complexity. In order to make this easier (both for you and for us to grade), the assignment asks you to develop your code in three different packages: a3novice, a3adept, and a3jedi. Once you complete a3novice, you should "copy" the package to a3adept, keeping all of the class names and interface names the same. This is really easy to do in Eclipse. If you right click on the package name in Eclipse, you'll see a "Copy" option on the contextual menu. A subsequent paste will cause Eclipse to prompt you to confirm a new name for the package and then it will create the new package with the specified name and copies all of the code edited to reflect the new package name.<br><br></p>
+<p>You will turn in a jar file for each of the three packages. Please pay attention to the instructions at the end of this document that explain what a jar file is and how to turn in the assignment.</p>
+<p>&nbsp;</p>
+<p>Finally, now a description of what to actually do.</p>
+<p>&nbsp;</p>
+<p><span style="text-decoration:underline"><strong>Novice</strong></span></p>
+<p>&nbsp;</p>
+<p>Create a package called "a3novice".</p>
+<p><br>Create an interface called Pixel and a class called ColorPixel that implements it.</p>
+<p>&nbsp;</p>
+<p>The Pixel interface should include the following method signatures:</p>
+<p>&nbsp;</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">double</span><span class="pln"> getRed</span><span class="pun">();</span><span class="pln">
+</span><span class="kwd">double</span><span class="pln"> getGreen</span><span class="pun">();</span><span class="pln">
+</span><span class="kwd">double</span><span class="pln"> getBlue</span><span class="pun">();</span><span class="pln">
+</span><span class="kwd">double</span><span class="pln"> getBrightness</span><span class="pun">();</span></pre>
+<p>The first three of these are getters for the red, green, and blue component values of a pixel. The last gets the overall brightness (i.e., gray level) of the pixel. Because the different color components contribute to brightness in different ways, you need to calculate the appropriate value as a weighted average of the red, green, and blue components. The formula for this is:<br><br></p>
+<p>brightness = 0.2126 * red + 0.7152 * green + 0.0722 * blue<br><br></p>
+<p>You ColorPixel class should have a constructor with the following signature:<br><br></p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">public</span><span class="pln"> </span><span class="typ">ColorPixel</span><span class="pun">(</span><span class="kwd">double</span><span class="pln"> red</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">double</span><span class="pln"> green</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">double</span><span class="pln"> blue</span><span class="pun">)</span><span class="pln">
+</span></pre>
+<p>Create an interface called Frame and a class called ColorFrame that implements it.<br><br>The Frame interface should include the following method signatures:<br><br></p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">int</span><span class="pln"> getWidth</span><span class="pun">();</span><span class="pln">
+</span><span class="kwd">int</span><span class="pln"> getHeight</span><span class="pun">();</span><span class="pln">
+</span><span class="typ">Pixel</span><span class="pln"> getPixel</span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> x</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> y</span><span class="pun">);</span><span class="pln">
+</span><span class="kwd">void</span><span class="pln"> setPixel</span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> x</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> y</span><span class="pun">,</span><span class="pln"> </span><span class="typ">Pixel</span><span class="pln"> p</span><span class="pun">);</span><span class="pln">
+</span></pre>
+<p>The getWidth() and getHeight() methods simply return the width and height of the frame.</p>
+<p><br>The getPixel() method returns the pixel at the specified (x,y) position.</p>
+<p><br>The setPixel() method should set the pixel at the specified (x,y) position to the Pixel object passed in as the third parameter.</p>
+<p><br>Your ColorFrame class should have the following two constructors:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">public</span><span class="pln"> </span><span class="typ">ColorFrame</span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> width</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> height</span><span class="pun">,</span><span class="pln"> </span><span class="typ">ColorPixel</span><span class="pln"> init_color</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">public</span><span class="pln"> </span><span class="typ">ColorFrame</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> width</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> height</span><span class="pun">)</span></pre>
+<p>&nbsp;</p>
+<p>The first of these constructors creates a new frame of the specified width and height with every pixel set to the pixel passed in as init_color. The second of these constructors should do the same with every pixel set to a medium gray (i.e., red = green = blue = 0.5). You should be able to implement the second constructor by chaining to the first.</p>
+<p><br>Your class implementation should encapsulate a 2D array of ColorPixel objects. For the getPixel() and setPixel() method you should check the x and y values passed in as parameters for being valid and throw a runtime exception if they are not. You should also check to make sure the the pixel passed in to setPixel() is not null. You may assume that the Pixel object reference is a reference to a ColorPixel object. Because your ColorPicture frame will encapsulate a 2D array of ColorPixel objects, you will need to explicitly "cast" the reference to a ColorPixel type. I will be demonstrating this idea in class if you are unfamiliar with it.</p>
+<p>&nbsp;</p>
+<p><span style="text-decoration:underline"><strong>Adept</strong></span></p>
+<p>&nbsp;</p>
+<p>Make a copy of your a3novice package, calling it a3adept.</p>
+<p><br>Add the following two methods to the Pixel interface:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="typ">Pixel</span><span class="pln"> lighten</span><span class="pun">(</span><span class="kwd">double</span><span class="pln"> factor</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Pixel</span><span class="pln"> darken</span><span class="pun">(</span><span class="kwd">double</span><span class="pln"> factor</span><span class="pun">);</span></pre>
+<p><br>These methods ask a Pixel object to produce a new Pixel object that is lighter/darker than itself by a certain factor. The factor should be a value from 0.0 to 1.0 (raise a runtime exception if it isn't). The factor is used to blend the current pixel value with either white (for lighten) or black (for darken). The formula for lighten should be:<br><br></p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">new</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> current </span><span class="pun">*</span><span class="pln"> </span><span class="pun">(</span><span class="lit">1.0</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> factor</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> factor</span></pre>
+<p><br>Where current is the current red, green, or blue value and new is the red, green, or blue value for the new Pixel. The formula for darken is:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">new</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> current </span><span class="pun">*</span><span class="pln"> </span><span class="pun">(</span><span class="lit">1.0</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> factor</span><span class="pun">)</span></pre>
+<p><br>Update your ColorPixel class implementation to implement these new methods.</p>
+<p><br>Next, define a new class called PixelIterator that implements the interface java.util.Iterator&lt;Pixel&gt;. The documentation for the interface is here:</p>
+<p><br>http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html</p>
+<p><br>You do not need to support the remove() method of this interface and your implementation can simply throw a runtime exception. Your PixelIterator class should have a constructor with the following signature:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">public</span><span class="pln"> </span><span class="typ">PixelIterator</span><span class="pun">(</span><span class="typ">Frame</span><span class="pln"> frame</span><span class="pun">)</span></pre>
+<p>The iterator should traverse the pixels of the frame passed to the constructor in "raster scan" order as described above.</p>
+<p><br>Now, add the following method to the Frame interface:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="pln">java</span><span class="pun">.</span><span class="pln">util</span><span class="pun">.</span><span class="typ">Iterator</span><span class="pun">&lt;</span><span class="typ">Pixel</span><span class="pun">&gt;</span><span class="pln"> iterator</span><span class="pun">();</span></pre>
+<p><br>Update your ColorFrame class to implement this method. It should simply return a new PixelIterator object that operates on the frame.</p>
+<p><br><span style="text-decoration:underline"><strong>Jedi</strong></span></p>
+<p><br>Copy a3adept to a3jedi.</p>
+<p><br>Create GrayPixel and GrayFrame classes that implement the Pixel and Frame interfaces. GrayPixel's represent a pixel that is non-chromatic (i.e, red, green, and blue components are the same). It should have the following constructor:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="kwd">public</span><span class="pln"> </span><span class="typ">GrayPixel</span><span class="pun">(</span><span class="kwd">double</span><span class="pln"> level</span><span class="pun">)</span></pre>
+<p><br>Your implementation should encapsulate a single double value that represent the gray level from 0.0 (i.e., black) to 1.0 (i.e., white).</p>
+<p><br>GrayFrame should be&nbsp; a frame that uses GrayPixels. It should have two constructors in the same way that ColorFrame does (i.e., one that accepts a width, height, and an initial GrayPixel value and one that only specifies width and height and initializes all pixels to a medium gray).</p>
+<p><br>Add the following method to the Frame interface:</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"><span class="pln">java</span><span class="pun">.</span><span class="pln">util</span><span class="pun">.</span><span class="typ">Iterator</span><span class="pun">&lt;</span><span class="typ">Pixel</span><span class="pun">&gt;</span><span class="pln"> zigzag</span><span class="pun">();</span></pre>
+<p><br>This method shold return a pixel iterator that traverses the pixels in the frame in "zig-zag" order from the top left to the bottom right as shown in this example:</p>
+<p>&nbsp;</p>
+<p><img src="https://d1b10bmlvqabco.cloudfront.net/attach/hq1gs47r61x6bc/hbpawagy1su7ok/hr84uditwlz8/zigzag.gif"></p>
+<p><br><br>Note that your first move should be to go from the corner across to the right.</p>
+<p><br>Implement your zig-zag order iterator as the class ZigZagIterator.</p>
+<p>&nbsp;</p>
+<p><br><span style="text-decoration:underline"><strong>Turning In The Assignment </strong></span></p>
+<p><br>To turn in the assignment to Sakai, submit each package as its own JAR file. A JAR file is a "Java ARchive" file. To create one from a package in Eclipse, right click on the package name, select "Export...". Choose the "JAR file" option. Eclipse will show a dialog box with options for the JAR file. Be sure to enable "Export Java source files and resources". This may not be checked by default. This is very important. Then specify a location on your hard drive for where the JAR file will be created. Use the filenames a3novice.jar, a3adept.jar, and a3jedi.jar. Upload these files as your Sakai submission.<br><br></p>
+<p>&nbsp;</p>
+<pre style="white-space: -moz-pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word;" class="prettyprint"></pre>
+<p>&nbsp;</p><br></div>
+<div class="post_region_folders">
+  <span>
+    
+  </span>
+</div>
+<div class="attachments" style="display:none;">
+  <div class="attachments_divider"></div>
+  <div class="attachments_count">Attachments:</div>
+  <table class="attachments_list">
+    
+  </table>
+</div>
+<div class="post_region_message_wrapper">
+  <div id="endorse_text"></div>
+  
+  
+  
+
+      </div>
+    </div>
+
+    </body>
+</html>
